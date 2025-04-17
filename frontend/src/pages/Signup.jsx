@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { apiEndpoint } from '../api';
+
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -32,7 +34,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/auth/signup', {
+      const response = await axios.post(`${apiEndpoint}/api/v1/auth/signup`, {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,

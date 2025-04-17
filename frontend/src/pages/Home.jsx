@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../app/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Cart from "../component/Cart";
+import { apiEndpoint } from "../api";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const Home = () => {
     setValue(selectedBank);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/v1/auth/your_recomendation", {
+      const response = await axios.post(`${apiEndpoint}/api/v1/card/your_recomendation`, {
         bank_name: selectedBank,
       });
       console.log(`this is response from the bank ${response}`);
@@ -56,7 +57,7 @@ const Home = () => {
     const selectedCardIds = selectedCards.map((card) => card._id); // Extract only card IDs
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/addcard",
+        `${apiEndpoint}/api/v1/auth/addcard`,
         { productIds: selectedCardIds },
         {
           headers: {

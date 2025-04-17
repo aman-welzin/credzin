@@ -9,10 +9,8 @@ passport.use(new GoogleStrategy({
 },
 async (accessToken, refreshToken, profile, done) => {
   try {
-    console.log("GOOGLE PROFILE:", profile); // ✅ Log full profile structure
-
     const existingUser = await User.findOne({ googleId: profile.id });
-    if (existingUser) return done(null, existingUser);
+    if (existingUser) {return done(null, existingUser);}
 
     const firstName = profile.name?.givenName || "";
     const lastName = profile.name?.familyName || "";

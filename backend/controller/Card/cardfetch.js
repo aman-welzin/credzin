@@ -12,14 +12,12 @@ exports.Cardfetch=async(req,res)=>{
         }
        
         const card =  await Card.find({bank_name:bank_name})
-        console.log(card)
         if(!card){
             return res.status(400).json({
                 success:false,
                 message:`No card found`
             })
         };
-        // console.log("end of cards")
         return res.status(200).json({
             success:true,
             message:`All card for ${bank_name} `,

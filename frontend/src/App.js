@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from './app/slices/authSlice';
 import { setCart } from './app/slices/cartSlice';
 import './index.css';
+import { apiEndpoint } from './api';
 
 function App() {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ function App() {
   const getUser = async () => {
     if (localStorage.getItem('token')) {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/auth/userdata', {
+        const response = await axios.get(`${apiEndpoint}/api/v1/auth/userdata`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -67,7 +68,7 @@ function App() {
   const getCardDetails = async () => {
     if (localStorage.getItem('token')) {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/auth/addedcards', {
+        const response = await axios.get(`${apiEndpoint}/api/v1/auth/addedcards`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },

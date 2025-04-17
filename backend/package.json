@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "lint": "eslint . --ext .js,.cjs",
+    "lint:fix": "eslint . --ext .js,.cjs --fix"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +15,7 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.6.0",
+    "compression": "^1.8.0",
     "cookie-parser": "^1.4.7",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
@@ -20,13 +23,27 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-fileupload": "^1.5.1",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.1",
+    "morgan": "^1.10.0",
     "node-schedule": "^2.1.1",
     "nodemailer": "^6.10.0",
     "nodemon": "^3.1.9",
     "otp-generator": "^4.0.1",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0"
-  }
+  },
+"devDependencies": {
+  "eslint": "^9.24.0",
+  "@eslint/js": "^9.24.0",
+  "eslint-plugin-n": "^17.17.0",
+  "eslint-plugin-node": "^11.1.0",
+  "eslint-plugin-security": "^3.0.1",
+  "eslint-config-prettier": "^10.1.2",
+  "globals": "^16.0.0",
+  "prettier": "^3.5.3"
+}
+
 }

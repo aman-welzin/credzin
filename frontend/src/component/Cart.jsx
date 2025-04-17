@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart } from "../app/slices/cartSlice";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { apiEndpoint } from "../api";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);
@@ -13,7 +14,7 @@ const Cart = () => {
   const handleRemoveCard = async (cardId) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/auth/removeCardFromCart",
+        `${apiEndpoint}/api/v1/auth/removeCardFromCart`,
         { cardId },
         {
           headers: {
