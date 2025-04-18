@@ -14,6 +14,9 @@ import { setUser } from './app/slices/authSlice';
 import { setCart } from './app/slices/cartSlice';
 import './index.css';
 import { apiEndpoint } from './api';
+import Navbar from './component/Navbar';
+import Footer from './component/Footer';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -91,13 +94,15 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar />
       <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/" element={<Hello />} />
 
         <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
+      <Footer />
     </div>
   );
 }

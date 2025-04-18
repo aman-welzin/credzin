@@ -1,10 +1,16 @@
 import React from "react";
+import sampleImage from "../Images/pexels-ivan-samkov-7621136.jpg";
 
-const Hello=()=>{
-    return(
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <h1 className="text-3xl font-bold text-blue-600">Hello, World! 🌍</h1>
-        </div>
-    )
-}
-export default Hello
+const Hello = () => {
+  return (
+    <div className="w-full h-[530px]">
+      <img
+        src={sampleImage}
+        alt="Full Page"
+        className="w-full h-[530px] object-cover"
+      />
+    </div>
+  );
+};
+
+export default Hello;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { apiEndpoint } from '../api';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -22,7 +21,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${apiEndpoint}/api/v1/auth/login`,
+        `http://localhost:5000/api/v1/auth/login`,
         formData,
         { withCredentials: true }
       );
@@ -37,19 +36,19 @@ function Login() {
   };
 
   const handleGoogleLogin = () => {
-    window.open(`${apiEndpoint}/api/v1/auth/google`, "_self");
+    window.open(`http://localhost:5000/api/v1/auth/google`, "_self");
   };
 
   return (
-    <div className="flex min-h-screen w-full bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100">
-      <div className="flex flex-row w-full min-h-screen">
+    <div className="flex h-[530px] w-full bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 overflow-hidden">
+      <div className="flex flex-row w-full h-[530px]">
         {/* Left Side - Form */}
-        <div className="w-1/2 flex items-center justify-center p-8">
-          <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 transform transition-all duration-300 hover:shadow-xl">
-            <h2 className="text-4xl font-extrabold text-gray-900 mb-2 text-center">
+        <div className="w-1/2 h-[520px] items-center justify-center p-6 px-24 overflow-hidden">
+          <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6 transform transition-all duration-300 hover:shadow-xl h-fit">
+            <h2 className="text-3xl font-extrabold text-gray-900 mb-0 text-center">
               Welcome Back
             </h2>
-            <p className="text-center text-gray-500 mb-8">
+            <p className="text-center text-gray-500 mb-3">
               Sign in to your account
             </p>
 
@@ -117,9 +116,9 @@ function Login() {
         </div>
 
         {/* Right Side - Image */}
-        <div className="w-1/2 flex items-center justify-center bg-gray-200">
-          <div className="relative w-3/4 h-3/4 rounded-lg overflow-hidden shadow-md">
-            <img
+        <div className="w-1/2 flex items-center justify-center bg-gray-200 overflow-hidden">
+        <div className="relative w-3/4 h-3/4 rounded-lg overflow-hidden shadow-md">
+          <img
               src="https://images.pexels.com/photos/164501/pexels-photo-164501.jpeg?auto=compress&cs=tinysrgb&w=400"
               alt="Login Visual"
               className="w-full h-full object-cover transform transition-transform duration-500 hover:scale-105"
