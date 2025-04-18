@@ -106,7 +106,7 @@ const Home = () => {
             Which bank do you use?
           </label>
           <Dropdown
-            label="Which card do you own?"
+            label="Which credit cards do you own?"
             options={options}
             value={value}
             onChange={handleChange}
