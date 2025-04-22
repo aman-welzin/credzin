@@ -96,7 +96,7 @@ function App() {
     <div className="App">
       <Navbar />
       <Routes>
-      <Route path="/" element={<Hello />} />
+      <Route path="/" element={<Navigate to="/login" />} />
 
         <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
         <Route path="/login" element={<Login />} />
