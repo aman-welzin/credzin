@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import sampleImage from "../Images/pexels-ivan-samkov-7621136.jpg";
+import { apiEndpoint } from '../api';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/v1/auth/login`,
+        `${apiEndpoint}/api/v1/auth/login`,
         formData,
         { withCredentials: true }
       );
@@ -37,7 +38,7 @@ function Login() {
   };
 
   const handleGoogleLogin = () => {
-    window.open(`http://localhost:5000/api/v1/auth/google`, "_self");
+    window.open(`${apiEndpoint}/api/v1/auth/google`, "_self");
   };
 
   return (
