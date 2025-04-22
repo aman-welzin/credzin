@@ -37,7 +37,7 @@ function Login() {
   };
 
   const handleGoogleLogin = () => {
-    window.open(`http://localhost:5000/api/v1/auth/google`, "_self");
+    window.open(`${apiEndpoint}/api/v1/auth/google`, "_self");
   };
 
   return (
