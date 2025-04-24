@@ -2,18 +2,21 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-4 mt-0 shadow-lg">
-      <div className="max-w-7xl mx-auto px4 md:px-8 flex flex-col md:flex-row justify-center items-center gap-4 text-sm md:text-base text-center md:text-left">
+    <footer className="bg-black text-white py-4 shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center text-sm md:text-base text-center md:text-left gap-2 md:gap-4">
         
         {/* Left Side: Copyright */}
         <p>
           © {new Date().getFullYear()} <span className="font-semibold">Credzin</span>. All rights reserved.
         </p>
-        <span>|</span>
+
+        {/* Divider for small screens */}
+        <div className="md:hidden border-t border-gray-700 w-full my-2"></div>
+
         {/* Right Side: Links */}
-        <div className="flex items-center gap-8">
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
           <a href="/" className="hover:text-gray-400 transition">Privacy Policy</a>
-          <span>|</span>
+          <span className="hidden md:inline">|</span>
           <a href="/" className="hover:text-gray-400 transition">Terms of Service</a>
         </div>
         
