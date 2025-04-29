@@ -33,12 +33,12 @@ const Cart = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 p-4 lg:p-6">
+    <div className="h-30 w-full bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 p-4 lg:p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <h2 className="text-3xl font-extrabold text-gray-900 text-center">
-            Choose Your Bank Card
+            Cards in your account
           </h2>
         </div>
 

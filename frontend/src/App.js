@@ -1,12 +1,8 @@
-
-
-
-import React, { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate,Navigate , useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Hello from './pages/Hello';
 import PrivateRoute from './component/PrivateRoutes';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -16,7 +12,6 @@ import './index.css';
 import { apiEndpoint } from './api';
 import Navbar from './component/Navbar';
 import Footer from './component/Footer';
-
 
 function App() {
   const dispatch = useDispatch();
@@ -35,18 +30,6 @@ function App() {
       navigate('/home'); // force redirect to /home route
     }
   }, [location.search, navigate]);
-  // useEffect(() => {
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   const tokenFromURL = urlParams.get('token');
-  //   if (tokenFromURL) {
-  //     console.log("Setting token from URL:", tokenFromURL);
-  //     localStorage.setItem('token', tokenFromURL);
-  
-  //     // Optional: Clean up the URL (remove token param)
-  //     const newUrl = window.location.pathname;
-  //     window.history.replaceState({}, document.title, newUrl);
-  //   }
-  // }, []);
 
   // Step 2: Fetch user info
   const getUser = async () => {
@@ -94,10 +77,9 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
+      <Navbar /> {/* Removed the onLogout prop */}
       <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
-
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
