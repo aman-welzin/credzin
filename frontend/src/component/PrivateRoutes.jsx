@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom"
 
+
 function PrivateRoute({ children }) {
   const  token  = localStorage.getItem('token')
     console.log("this is token",token)
@@ -9,6 +10,5 @@ function PrivateRoute({ children }) {
     return children;
   }
 }
-
 
 export default PrivateRoute
