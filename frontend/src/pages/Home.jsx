@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Cart from "../component/Cart";
 import { apiEndpoint } from "../api";
 
-const Home = () => {
+const Home = ({ isManageCardsVisible, setIsManageCardsVisible }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -23,7 +23,6 @@ const Home = () => {
   const [bankCard, setBankCard] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
 
-  // Fetch selected cards from the backend on page load
   useEffect(() => {
     const fetchSelectedCards = async () => {
       try {
@@ -66,14 +65,13 @@ const Home = () => {
     setCheckedItems((prevCheckedItems) => {
       const newCheckedItems = { ...prevCheckedItems };
       if (newCheckedItems[card._id]) {
-        delete newCheckedItems[card._id]; // Remove if already selected
+        delete newCheckedItems[card._id];
       } else {
-        newCheckedItems[card._id] = card; // Store the whole card object
+        newCheckedItems[card._id] = card;
       }
       return newCheckedItems;
     });
 
-    // Update the backend with the new selected cards
     try {
       await axios.post(
         `${apiEndpoint}/api/v1/auth/updateSelectedCards`,
@@ -90,8 +88,8 @@ const Home = () => {
   };
 
   const handleAddToCart = async () => {
-    const selectedCards = Object.values(checkedItems); // Get full card details
-    const selectedCardIds = selectedCards.map((card) => card._id); // Extract only card IDs
+    const selectedCards = Object.values(checkedItems);
+    const selectedCardIds = selectedCards.map((card) => card._id);
     try {
       const response = await axios.post(
         `${apiEndpoint}/api/v1/auth/addcard`,
@@ -105,6 +103,7 @@ const Home = () => {
 
       if (response.status === 200) {
         dispatch(addToCart(selectedCards));
+        setIsManageCardsVisible(false); // Hide the Manage Cards section
       }
     } catch (error) {
       console.error("Error adding to cart:", error);
@@ -112,67 +111,14 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 flex items-center justify-center p-4 sm:p-6 md:p-8">
-      <div className="w-full h-full bg-white rounded-none shadow-lg p-4 sm:p-6 md:p-8 transform transition-all duration-300 hover:shadow-xl relative">
-        {/* Header Section */}
-        <div className="text-center mb-4 sm:mb-4">
-          <h2 className="text-2xl sm:text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">
-            Choose Your Bank Cards
-          </h2>
-        </div>
-
-        {/* Dropdown and Scrollable Bank Cards Section */}
-        <div className="flex flex-col md:flex-row md:space-x-6 w-full">
-          {/* Dropdown Section */}
-          <div className="flex flex-col justify-center items-center bg-gray-50 border border-gray-200 rounded-lg p-4 w-full md:w-1/3 h-64">
-            <Dropdown
-              label="Select issuer bank"
-              options={options}
-              value={value}
-              onChange={handleChange}
-              className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none transition-all duration-200"
-            />
-            <p className="mt-2 text-xs sm:text-sm text-gray-600">
-              You have selected: <span className="font-semibold text-blue-600">{value}</span>
-            </p>
-          </div>
-
-          {/* Scrollable Bank Cards Section */}
-          <div className="flex flex-col justify-center items-center bg-gray-50 border border-gray-200 rounded-lg p-4 w-full md:w-2/3 h-64 overflow-y-auto">
-            {bankCard.length > 0 ? (
-              <div className="grid grid-cols-2 gap-4 w-full">
-                {bankCard.map((card) => (
-                  <label
-                    key={card._id}
-                    className="flex items-center justify-between p-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition-colors duration-200"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <input
-                        type="checkbox"
-                        checked={checkedItems[card._id] || false}
-                        onChange={() => handleCheckboxChange(card)}
-                        className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-400"
-                      />
-                      <span className="text-sm sm:text-base text-gray-700">{card.card_name}</span>
-                    </div>
-                  </label>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-gray-500">No cards available.</p>
-            )}
-          </div>
-        </div>
-
+    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 flex items-center justify-center p-0 sm:p-0 md:p-0">
+      <div className="w-full h-full bg-white rounded-none shadow-lg p-0 sm:p-0 md:p-0 transform transition-all duration-300 hover:shadow-xl relative">
         {/* Buttons and Cart Section */}
         <div className="flex flex-col items-center space-y-6 mt-6">
+          <div className="w-full">
+            <Cart />
+          </div>
           <div className="flex justify-center gap-14 w-full">
-          <button
-              onClick={handleAddToCart}
-              className="w-40 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 transition-all duration-300 font-semibold"
-            >
-              Add Your Card
-            </button>
             <button
               onClick={() => navigate("/paybill")}
               className="w-40 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 transition-all duration-300 font-semibold"
@@ -186,13 +132,10 @@ const Home = () => {
               Shop
             </button>
           </div>
-          <div className="w-full">
-            <Cart />
-          </div>
         </div>
 
         {/* Additional Boxes Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 mb-8 mx-4">
           {/* Recommended Cards Box */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 shadow-md">
             <h3 className="text-lg font-semibold text-blue-800 mb-2">Recommended Cards</h3>
@@ -223,4 +166,3 @@ const Home = () => {
 };
 
 export default Home;
-

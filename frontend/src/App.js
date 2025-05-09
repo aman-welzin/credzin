@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -12,6 +12,7 @@ import './index.css';
 import { apiEndpoint } from './api';
 import Navbar from './component/Navbar';
 import Footer from './component/Footer';
+import ManageCards from './pages/ManageCards'; // Import the new page
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,14 @@ function App() {
   const location = useLocation();
 
   const token = localStorage.getItem('token');
+
+  // State to control header visibility
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+
+  // Function to toggle header visibility
+  const showHeader = (visible) => {
+    setIsHeaderVisible(visible);
+  };
 
   // Step 1: Get token from URL and store it
   useEffect(() => {
@@ -77,10 +86,18 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar /> {/* Removed the onLogout prop */}
+      <Navbar />
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <Home showHeader={isHeaderVisible} />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/manage-cards" element={<ManageCards />} /> {/* New Route */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
