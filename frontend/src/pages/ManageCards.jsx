@@ -1,128 +1,172 @@
-import React, { useState, useEffect } from "react";
-import Dropdown from "../component/Drpdown"; // Adjusted path for Dropdown
+import React, { useState } from "react";
+import Dropdown from "../component/Drpdown";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../app/slices/cartSlice"; // Redux action for adding to cart
-import { apiEndpoint } from "../api"; // Adjusted path for API configuration
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart, removeFromCart } from "../app/slices/cartSlice";
+import { apiEndpoint } from "../api";
+
+const bankOptions = [
+  { label: "Select Bank", value: "Bank" },
+  { label: "Axis Bank", value: "Axis Bank" },
+  { label: "SBI Bank", value: "SBI Bank" },
+  { label: "HDFC Bank", value: "HDFC Bank" },
+];
 
 const ManageCards = () => {
-  const [value, setValue] = useState("Select Bank");
-  const [bankCard, setBankCard] = useState([]);
-  const [checkedItems, setCheckedItems] = useState({});
+  const [selectedBank, setSelectedBank] = useState("Select Bank");
+  const [bankCards, setBankCards] = useState([]);
+  const [selectedCards, setSelectedCards] = useState({});
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cart);
 
-  const options = [
-    { label: "Select Bank", value: "Bank" },
-    { label: "Axis Bank", value: "Axis Bank" },
-    { label: "SBI Bank", value: "SBI Bank" },
-    { label: "HDFC Bank", value: "HDFC Bank" },
-  ];
-
-  const handleChange = async (event) => {
-    const selectedBank = event.target.value;
-    setValue(selectedBank);
-
+  const fetchBankCards = async (bank) => {
     try {
-      const response = await axios.post(`${apiEndpoint}/api/v1/card/your_recomendation`, {
-        bank_name: selectedBank,
+      const { data } = await axios.post(`${apiEndpoint}/api/v1/card/your_recomendation`, {
+        bank_name: bank,
       });
-      const cards = response.data?.cards || [];
-      setBankCard(cards);
+      setBankCards(data?.cards || []);
     } catch (err) {
-      console.error("Error fetching data:", err.response?.data || err);
-      setBankCard([]);
+      console.error("Error fetching cards:", err.response?.data || err);
+      setBankCards([]);
     }
   };
 
-  const handleCheckboxChange = (card) => {
-    setCheckedItems((prevCheckedItems) => {
-      const newCheckedItems = { ...prevCheckedItems };
-      if (newCheckedItems[card._id]) {
-        delete newCheckedItems[card._id];
-      } else {
-        newCheckedItems[card._id] = card;
-      }
-      return newCheckedItems;
+  const handleBankChange = (e) => {
+    const bank = e.target.value;
+    setSelectedBank(bank);
+    if (bank !== "Bank") fetchBankCards(bank);
+  };
+
+  const toggleCardSelection = (card) => {
+    setSelectedCards((prev) => {
+      const updated = { ...prev };
+      if (updated[card._id]) delete updated[card._id];
+      else updated[card._id] = card;
+      return updated;
     });
   };
 
   const handleAddToCart = async () => {
-    const selectedCards = Object.values(checkedItems);
-    const selectedCardIds = selectedCards.map((card) => card._id);
+    const cards = Object.values(selectedCards);
+    const cardIds = cards.map((card) => card._id);
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${apiEndpoint}/api/v1/auth/addcard`,
-        { productIds: selectedCardIds },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { productIds: cardIds },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      if (response.status === 200) {
-        dispatch(addToCart(selectedCards)); // Add selected cards to Redux store
-        alert("Cards added to cart successfully!");
-      }
+      dispatch(addToCart(cards));
+      alert("Cards added to cart successfully!");
+      setSelectedCards({});
     } catch (error) {
       console.error("Error adding to cart:", error);
+      alert("Failed to add cards.");
+    }
+  };
+
+  const handleRemoveCard = async (cardId) => {
+    try {
+      await axios.post(
+        `${apiEndpoint}/api/v1/auth/removeCardFromCart`,
+        { cardId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      dispatch(removeFromCart(cardId));
+    } catch (error) {
+      console.error("Error removing card:", error);
     }
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 flex flex-col items-center justify-center p-4">
-      <div className="mt-6 flex flex-col md:flex-row md:space-x-6 lg:space-x-10 w-full max-w-5xl bg-white rounded-lg shadow-lg p-4 md:p-6 h-[400px]">
-        {/* Dropdown Section */}
-        <div className="flex flex-col justify-center items-center bg-gray-50 border border-gray-200 rounded-lg p-4 w-full md:w-1/3 h-full">
-            <Dropdown
-                label="Select issuer bank"
-                options={options}
-                value={value}
-                onChange={handleChange}
-                className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none transition-all duration-200"
-            />
-            <p className="mt-2 text-xs sm:text-sm text-gray-600 text-center">
-                You have selected: <span className="font-semibold text-blue-600">{value}</span>
-            </p>
-        </div>
+    <div className="min-h-screen flex flex-col items-center p-4 bg-gray-50">
 
-        {/* Scrollable Bank Cards Section */}
-        <div className="flex flex-col justify-center items-center bg-gray-50 border border-gray-200 rounded-lg p-4 w-full md:w-2/3 h-full max-h-[500px] overflow-y-auto">
-            {bankCard.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-0 w-full">
-              {bankCard.map((card) => (
-                <label
-                  key={card._id}
-                  className="flex items-center justify-between p-3 hover:bg-gray-100 rounded-md transition-colors duration-200"
+      {/* CART SECTION */}
+      <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg p-2 max-h-[400px] mb-6 overflow-y-auto">
+        <h2 className="text-2xl font-bold text-center text-gray-900 mb-1">Cards in your account</h2>
+        {cart.length === 0 ? (
+          <p className="text-center text-gray-600 text-lg">No items in the cart</p>
+        ) : (
+          <div className="overflow-y-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6 max-h-[340px]">
+            {cart.map((card) => (
+              <div
+                key={card._id}
+                className="bg-white rounded-lg shadow p-4 flex flex-col items-center"
+              >
+                {/* Responsive fixed-size image container */}
+                <div className="w-full h-40 sm:h-48 md:h-40 lg:h-48 flex justify-center items-center overflow-hidden">
+                  <img
+                    src={card.image_url || "https://via.placeholder.com/150"}
+                    alt={card.card_name}
+                    className="h-full object-contain"
+                  />
+                </div>
+                <h3 className="mt-2 text-center font-semibold">{card.card_name}</h3>
+                <button
+                  onClick={() => handleRemoveCard(card._id)}
+                  className="mt-3 bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600 transition"
                 >
-                  <div className="flex items-center space-x-3">
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* DROPDOWN + BANK CARDS SECTION */}
+      <div className="w-full max-w-5xl flex flex-col gap-6 bg-white rounded-lg shadow-lg p-6">
+        <div className="flex flex-col md:flex-row gap-6">
+
+          {/* LEFT: Dropdown */}
+          <div className="flex-1 bg-gray-100 border border-gray-200 rounded-lg p-4 flex flex-col items-center">
+            <Dropdown
+              label="Select issuer bank"
+              options={bankOptions}
+              value={selectedBank}
+              onChange={handleBankChange}
+              className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent outline-none transition"
+            />
+            <p className="mt-2 text-sm text-center text-gray-600">
+              You have selected: <span className="font-semibold text-blue-600">{selectedBank}</span>
+            </p>
+          </div>
+
+          {/* RIGHT: Cards from bank */}
+          <div className="flex-1 bg-gray-100 border border-gray-200 rounded-lg p-4 overflow-y-auto max-h-[400px]">
+            {bankCards.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {bankCards.map((card) => (
+                  <label
+                    key={card._id}
+                    className="flex items-center p-2 hover:bg-gray-200 rounded transition"
+                  >
                     <input
                       type="checkbox"
-                      checked={checkedItems[card._id] || false}
-                      onChange={() => handleCheckboxChange(card)}
-                      className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-400"
+                      checked={!!selectedCards[card._id]}
+                      onChange={() => toggleCardSelection(card)}
+                      className="mr-3"
                     />
-                    <span className="text-sm sm:text-base text-gray-700">{card.card_name}</span>
-                  </div>
-                </label>
-              ))}
-            </div>
+                    <span>{card.card_name}</span>
+                  </label>
+                ))}
+              </div>
             ) : (
-            <p className="text-sm text-gray-500 text-center">No cards available.</p>
+              <p className="text-center text-gray-500">No cards available.</p>
             )}
-            </div>
+          </div>
         </div>
 
-      {/* Add to Cart Button */}
-      <div className="mt-6 flex justify-center">
-        <button
-          onClick={handleAddToCart}
-          className="w-40 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 focus:ring-4 focus:ring-blue-300 focus:ring-opacity-50 transition-all duration-300 font-semibold"
-        >
-          Add to Cart
-        </button>
+        {/* Add to Cart Button */}
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={handleAddToCart}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Add to Cart
+          </button>
+        </div>
       </div>
     </div>
   );
