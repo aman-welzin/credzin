@@ -1,4 +1,4 @@
-from pycode.src.utils.utils import logger
+from src.utils.utils import logger
 
 import csv
 import os
@@ -7,6 +7,11 @@ import requests
 from urllib.parse import urljoin
 
 class AxisBankScraper:
+    """
+    Scraper for Axis Bank credit cards.
+    """
+    logger.info("Loading Axis Bank credit cards class")
+
     def __init__(self):
         self.BANK_URL = "https://www.axisbank.com/retail/cards/credit-card"
         self.APPLY_NOW_LINK = "https://web.axisbank.co.in/DigitalChannel/WebForm/?index6&utm_content=cclisting&utm_campaign=cciocl&utm_source=website&axisreferralcode=iocllisting"
@@ -170,7 +175,7 @@ class AxisBankScraper:
                         writer.writerow(card)
                         logger.info(f"Added: {card['Card Name']}")
                     else:
-                        logger.info(f"Skipped (already exists): {card['Card Name']}")
+                        logger.info(f"⚠️ Skipped (already exists): {card['Card Name']}")
         else:
             # Create a new CSV file and write the header
             with open(self.CSV_FILE, 'w', newline='', encoding='utf-8') as file:

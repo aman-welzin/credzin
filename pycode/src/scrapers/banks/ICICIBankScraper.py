@@ -1,4 +1,4 @@
-from pycode.src.utils.utils import logger
+from src.utils.utils import logger
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
@@ -6,6 +6,11 @@ import csv
 import pandas as pd
 
 class ICICIBankScraper:
+    """
+    Scraper for ICICI Bank credit cards.
+    """
+    logger.info("Loading ICICI Bank credit cards class")
+
     def __init__(self):
         self.BASE_URL = 'https://www.icicibank.com'
         self.CREDIT_CARDS_URL = urljoin(self.BASE_URL, '/personal-banking/cards/credit-card')

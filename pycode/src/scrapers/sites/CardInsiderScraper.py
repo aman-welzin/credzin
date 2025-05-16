@@ -1,4 +1,4 @@
-from pycode.src.utils.utils import logger
+from src.utils.utils import logger
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -7,6 +7,11 @@ import csv
 import pandas as pd
 
 class CardInsiderScraper:
+    """
+    Scraper for CardInsider credit cards.
+    """
+    logger.info("Loading CardInsider credit cards class")
+    
     def __init__(self):
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
@@ -193,7 +198,7 @@ class CardInsiderScraper:
                 continue
 
             # Save basic card information
-            basic_csv = f"credit_cards_{bank.upper()}_BANK.csv"
+            basic_csv = f"/Users/aman/Welzin/Dev/credzin/output/sites/cardinsider/credit_cards_{bank.upper()}_BANK.csv"
             self.save_to_csv(card_data, basic_csv)
 
             # Get detailed benefits for each card
@@ -210,7 +215,7 @@ class CardInsiderScraper:
 
             # Save detailed card information
             if all_card_data:
-                detail_csv = f"credit_cards_{bank.upper()}_BANK_detail.csv"
+                detail_csv = f"/Users/aman/Welzin/Dev/credzin/output/sites/cardinsider/credit_cards_{bank.upper()}_BANK_detail.csv"
                 fieldnames = ['card_name', 'source_url', 'all_benefits', 'additional_info']
                 
                 with open(detail_csv, 'w', newline='', encoding='utf-8') as file:
@@ -225,5 +230,5 @@ class CardInsiderScraper:
                         writer.writerow(row)
 
                 # Merge basic and detailed information
-                output_file = f'Final_card_Inside_{bank.upper()}_bank.csv'
+                output_file = f'/Users/aman/Welzin/Dev/credzin/output/sites/cardinsider/Final_card_Inside_{bank.upper()}_bank.csv'
                 self.merge_csv_files(basic_csv, detail_csv, output_file)

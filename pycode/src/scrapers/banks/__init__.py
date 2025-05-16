@@ -2,8 +2,8 @@
 Bank-specific scrapers package.
 """
 
-from .axis_bank import AxisBankScraper
-from .icici_bank import ICICIBankScraper
-from .sbi_bank import SBIBankScraper
+from .AxisBankScraper import AxisBankScraper
+from .ICICIBankScraper import ICICIBankScraper
+from .SBIBankScraper import SBIBankScraper
 
 __all__ = ['AxisBankScraper', 'ICICIBankScraper', 'SBIBankScraper'] 
