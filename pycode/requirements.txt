@@ -15,32 +15,33 @@ chromadb
 # Document Processing
 pymupdf
 python-docx
-lxml-html-clean
-pillow
+lxml-html-clean # for cleaning html
+pillow # for image processing
 
 # Data Processing
 pandas
 numpy
+featuretools    # for automated feature engineering
 
 # Machine Learning and Embeddings
-sentence-transformers
-transformers
+sentence-transformers # for sentence embeddings
+transformers # for transformers
 
 # Visualization
-matplotlib
-yfiles-jupyter-graphs
+matplotlib # for plotting
+yfiles-jupyter-graphs # for plotting
 
 # Web Interface
-gradio
+gradio # for web interface  
 
 # Utilities
-tqdm
+tqdm        # for progress bar
 pydantic
 typing-extensions
-python-dotenv
+python-dotenv # for environment variables
 
 # Search and Retrieval
-tavily-python
+tavily-python # for web search
 
 # Jupyter
 ipython
@@ -53,4 +54,5 @@ beautifulsoup4
 
 # Document processing
 bs4 
-pypdf 
+pypdf    
+openpyxl # for excel files

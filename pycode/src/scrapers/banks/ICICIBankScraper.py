@@ -14,7 +14,7 @@ class ICICIBankScraper:
     def __init__(self):
         self.BASE_URL = 'https://www.icicibank.com'
         self.CREDIT_CARDS_URL = urljoin(self.BASE_URL, '/personal-banking/cards/credit-card')
-        self.CSV_FILE = '/Users/aman/Welzin/Dev/credzin/output/icici_bank_credit_cards.csv'
+        self.CSV_FILE = '/Users/aman/Welzin/Dev/credzin/output/banks/icici_bank_credit_cards.csv'
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
         }

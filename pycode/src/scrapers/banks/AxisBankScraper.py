@@ -15,7 +15,7 @@ class AxisBankScraper:
     def __init__(self):
         self.BANK_URL = "https://www.axisbank.com/retail/cards/credit-card"
         self.APPLY_NOW_LINK = "https://web.axisbank.co.in/DigitalChannel/WebForm/?index6&utm_content=cclisting&utm_campaign=cciocl&utm_source=website&axisreferralcode=iocllisting"
-        self.CSV_FILE = '/Users/aman/Welzin/Dev/credzin/output/axis_bank_credit_cards.csv'
+        self.CSV_FILE = '/Users/aman/Welzin/Dev/credzin/output/banks/axis_bank_credit_cards.csv'
 
     def scrape_reward_information(self, url):
         # Fetch the "Know More" page

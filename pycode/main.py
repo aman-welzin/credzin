@@ -66,8 +66,8 @@ def run_site_scrapers(site_names):
 
 if __name__ == "__main__":
     # List of banks to scrape
-    # banks_to_scrape = ['axis', 'sbi', 'icici']
-    # run_bank_scrapers(banks_to_scrape)
+    banks_to_scrape = ['axis', 'sbi', 'icici']
+    run_bank_scrapers(banks_to_scrape)
 
     # List of sites to scrape
     sites_to_scrape = ['cardinsider']

@@ -12,7 +12,7 @@ class SBIBankScraper:
     logger.info("Loading SBI Bank credit cards class")
     
     def __init__(self):
-        self.CSV_FILE = '/Users/aman/Welzin/Dev/credzin/output/sbi_bank_credit_cards.csv'
+        self.CSV_FILE = '/Users/aman/Welzin/Dev/credzin/output/banks/sbi_bank_credit_cards.csv'
         self.MAIN_URL = "https://www.sbicard.com/en/personal/credit-cards.page"
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
