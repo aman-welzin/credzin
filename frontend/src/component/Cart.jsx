@@ -1,33 +1,7 @@
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../app/slices/cartSlice";
-import axios from "axios";
-import { apiEndpoint } from "../api";
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cart);
-  const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
-
-  const handleRemoveCard = async (cardId) => {
-    try {
-      const response = await axios.post(
-        `${apiEndpoint}/api/v1/auth/removeCardFromCart`,
-        { cardId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        dispatch(removeFromCart(cardId));
-      }
-    } catch (error) {
-      console.error("Error removing card:", error);
-    }
-  };
 
   return (
     <div className="h-auto w-full bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 p-0 lg:p-2">
@@ -46,11 +20,11 @@ const Cart = () => {
         ) : (
           <div className="h-[70vh] overflow-y-auto">
             {/* Updated Background for Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100 p-4 rounded-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 from-blue-50 via-gray-100 p-4 rounded-lg">
               {cart.map((card) => (
                 <div
                   key={card._id}
-                  className="bg-gradient-to-br rounded-xl shadow-lg p-4 sm:p-6 flex flex-col transform transition-all duration-300 hover:shadow-xl w-full"
+                  className="p-2 sm:p-0 flex flex-col transform transition-all duration-500 w-full"
                 >
                   {/* Card Flip Effect */}
                   <div className="relative w-full h-40 sm:h-50 rounded-md overflow-hidden group perspective">
@@ -70,14 +44,6 @@ const Cart = () => {
                       </div>
                     </div>
                   </div>
-
-                  {/* Remove Button */}
-                  <button
-                    onClick={() => handleRemoveCard(card._id)}
-                    className="mt-4 bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-4 rounded-lg hover:from-red-600 hover:to-red-700 focus:ring-4 focus:ring-red-300 focus:ring-opacity-50 transition-all duration-300 font-semibold"
-                  >
-                    Remove
-                  </button>
                 </div>
               ))}
             </div>
