@@ -22,6 +22,7 @@ pillow # for image processing
 pandas
 numpy
 featuretools    # for automated feature engineering
+spacy
 
 # Machine Learning and Embeddings
 sentence-transformers # for sentence embeddings
@@ -42,6 +43,7 @@ python-dotenv # for environment variables
 
 # Search and Retrieval
 tavily-python # for web search
+duckduckgo-search
 
 # Jupyter
 ipython
@@ -51,8 +53,17 @@ jupyter
 requests
 requests-html
 beautifulsoup4
+firecrawl-py 
 
 # Document processing
 bs4 
 pypdf    
 openpyxl # for excel files
+
+# LLMs and Embeddings
+ollama
+openai
+anthropic
+
+# Agno/PhiData API
+agno
