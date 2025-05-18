@@ -1,5 +1,6 @@
 # Core dependencies
 langchain
+langchain-core
 langchain-community
 langchain-experimental
 langchain-huggingface
@@ -40,6 +41,7 @@ tqdm        # for progress bar
 pydantic
 typing-extensions
 python-dotenv # for environment variables
+pytest
 
 # Search and Retrieval
 tavily-python # for web search
