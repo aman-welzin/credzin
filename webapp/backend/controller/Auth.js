@@ -6,12 +6,14 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 
 exports.signup = async (req, res) => {
+  
   const { firstName, lastName, email, password, contact } = req.body;
   try {
     const existing = await User.findOne({ email });
     if (existing) {
       return res.status(400).json({ message: 'User already exists' });
     }
+    console.log("hii we are inside the signup blockd")
 
     const hashed = await bcrypt.hash(password, 10);
     const user = await User.create({
@@ -21,7 +23,6 @@ exports.signup = async (req, res) => {
       password: hashed,
       contact,
     });
-
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
@@ -53,7 +54,11 @@ exports.login = async (req, res) => {
     });
     user.token = token;
     await user.save();
-    res.status(200).json({ user, token });
+    //  Convert to plain object and remove password
+    const userObj = user.toObject();
+    delete userObj.password;
+
+    res.status(200).json({ user: userObj, token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -123,6 +128,7 @@ exports.addcards = async (req, res) => {
           message: 'Product IDs array missing or empty.',
         });
     }
+    console.log("hii we are here")
 
     // Validate product IDs
 
@@ -145,7 +151,7 @@ exports.addcards = async (req, res) => {
 
     // Find the products
     const products = await Cards.find({ _id: { $in: productIds } });
-    // console.log("this is the products",products)
+   console.log("this is the products",products)
     if (products.length !== productIds.length) {
       const foundIds = products.map((p) => p._id.toString());
       const missingIds = productIds.filter((id) => !foundIds.includes(id));
@@ -175,7 +181,7 @@ exports.addcards = async (req, res) => {
       .json({
         success: true,
         message: 'Products added to cart.',
-        cart: user.cart,
+        cart: user.CardAdded,
       });
   } catch (error) {
     res
@@ -197,24 +203,26 @@ exports.getUserCards = async (req, res) => {
         message: 'Invalid user ID',
       });
     }
+   
 
-    // Fetch user and populate the CardAdded field
-    const user = await User.findById(userId)
+    // Fetch user and populate the CardAdded field 
+      const user = await User.findById(userId)
       .populate({
         path: 'CardAdded', // Populate the CardAdded array
         select:
           'bank_name features joining_fee annual_fee know_more_link apply_now_link image_url rewards card_name', // Select all required fields
       })
-      .select('-password'); // Exclude password from response
-
-
+      .select('-password');
+   
+     // Exclude password from response
+     
     if (!user) {
       return res.status(404).json({
         success: false,
         message: 'User not found',
       });
     }
-
+    
 
     // Send the populated cards
     res.status(200).json({
@@ -247,7 +255,7 @@ exports.removeCardFromCart = async (req, res) => {
       { new: true }
     ).populate({
       path: 'CardAdded',
-      model: 'Cards',
+      model: 'credit_cards',
       select: 'bank_name features joining_fee annual_fee image_URL card_name',
     });
 

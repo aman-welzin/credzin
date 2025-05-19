@@ -49,4 +49,4 @@ const cardSchema= new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model("Cards", cardSchema);
+module.exports = mongoose.model("credit_cards", cardSchema);

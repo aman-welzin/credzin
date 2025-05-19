@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
   CardAdded: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: "Cards",
+      ref: "credit_cards",
     },
   ],
   googleId: {

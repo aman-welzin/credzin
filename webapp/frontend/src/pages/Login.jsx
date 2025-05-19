@@ -31,7 +31,12 @@ function Login() {
       const token = response.data.token;
       localStorage.setItem('token', token);
       console.log("Token received:", token);
+     if (!response.data.user.CardAdded || response.data.user.CardAdded.length === 0) {
+      navigate('/manage-cards');
+    } else {
       navigate('/home');
+    }
+     
     } catch (err) {
       console.error("Login error:", err.response?.data?.message || err.message);
     }

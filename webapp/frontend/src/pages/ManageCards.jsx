@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
 import Dropdown from "../component/Drpdown";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../app/slices/cartSlice";
 import { apiEndpoint } from "../api";
+import { setBankList } from "../app/slices/bankSlice";
 
-const bankOptions = [
-  { label: "Select Bank", value: "Bank" },
-  { label: "Axis Bank", value: "Axis Bank" },
-  { label: "SBI Bank", value: "SBI Bank" },
-  { label: "HDFC Bank", value: "HDFC Bank" },
-];
+
 
 const ManageCards = () => {
   const [selectedBank, setSelectedBank] = useState("Select Bank");
@@ -19,9 +15,33 @@ const ManageCards = () => {
   const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
+  const bankList = useSelector((state) => state.bank.bankList); 
+
+  const bankOptions = [
+    { label: "Select Bank", value: "Bank" },
+    ...bankList.map((bank) => ({
+      label: `${bank} Bank`,
+      value: bank,
+    })),
+  ];
+
+  useEffect(() => {
+    const fetchBanks = async () => {
+      try {
+        const response = await axios.get(`${apiEndpoint}/api/v1/card/all_bank`);
+        const banks = response.data?.banks || [];
+        dispatch(setBankList(banks));
+      } catch (err) {
+        console.error("Error fetching bank list:", err.response?.data || err);
+      }
+    };
+
+    fetchBanks();
+  }, [dispatch]);
 
   const fetchBankCards = async (bank) => {
     try {
+      
       const { data } = await axios.post(`${apiEndpoint}/api/v1/card/your_recomendation`, {
         bank_name: bank,
       });
@@ -34,6 +54,7 @@ const ManageCards = () => {
 
   const handleBankChange = (e) => {
     const bank = e.target.value;
+    // console.log(bank);
     setSelectedBank(bank);
     if (bank !== "Bank") fetchBankCards(bank);
   };
@@ -50,19 +71,21 @@ const ManageCards = () => {
   const handleAddToCart = async () => {
     const cards = Object.values(selectedCards);
     const cardIds = cards.map((card) => card._id);
+    console.log("this is cart ", cards);
 
     try {
-      await axios.post(
+      const response =  await axios.post(
         `${apiEndpoint}/api/v1/auth/addcard`,
         { productIds: cardIds },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      dispatch(addToCart(cards));
-      alert("Cards added to cart successfully!");
-      setSelectedCards({});
+      console.log("This is the response:",response)
+      if(response.status==200){
+        dispatch(addToCart(cards));
+      }
+      // setSelectedCards({});
     } catch (error) {
-      console.error("Error adding to cart:", error);
-      alert("Failed to add cards.");
+      console.log("Error adding to cart:", error);
     }
   };
 
