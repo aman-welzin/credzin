@@ -16,20 +16,26 @@ use relative path everywhere and make sure it runs in all the systems by auto-de
 ## Knowledge base
 Scrape all the banks
 Scrape similar sites
+File reader for pdf, md
+create a qdrant loader for embeddings
+build metadata for all the banks
+Scheduler for weekly, monthly data pull
+Pull offers data and card eligibilty data 
 
-## RAG/Agent AI
-Complete the RAG pipeline
+## Recommendor/RAG/Agent AI
+Complete the RAG pipeline for card recommendation
+build a chatbot on the KB for user-card random queries
+Post generator using KB
 
 
 
-# Steps to run the web app
+
+ 
 
 
 
-# Steps to run the scrapers
 
 
-# Steps to run the RAG and Agents
 
 
 
@@ -63,6 +69,10 @@ The system is built using a modular architecture with the following components:
 - `LLMClient`: Handles interactions with language models
 - `Config`: Centralizes configuration settings
 
+
+
+# Steps to run the scrapers
+# Steps to run the RAG and Agents
 ## Setup
 
 1. Install dependencies:
@@ -134,6 +144,11 @@ pytest tests/
 # Run specific test
 pytest tests/test_recommender.py::test_card_extractor
 ```
+
+
+# Steps to run the web app
+
+
 
 ## Contributing
 
