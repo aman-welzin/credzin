@@ -13,6 +13,7 @@ import { apiEndpoint } from './api';
 import Navbar from './component/Navbar';
 import Footer from './component/Footer';
 import ManageCards from './pages/ManageCards'; // Import the new page
+import { setBankList } from './app/slices/bankSlice';
 
 function App() {
   const dispatch = useDispatch();
@@ -77,11 +78,23 @@ function App() {
       }
     }
   };
+  const get_all_bank=async()=>{
+    try{
+      const response = await axios.get(`${apiEndpoint}/api/v1/card/all_bank`);
+      const banks = response.data?.banks || [];
+      dispatch(setBankList(banks));
+
+    }catch(err){
+        console.error('Error fetching banks:', err.response?.data || err);
+    }
+
+  }
 
   // Step 4: Run once on mount
   useEffect(() => {
     getUser();
     getCardDetails();
+    get_all_bank();
   }, []);
 
   return (
