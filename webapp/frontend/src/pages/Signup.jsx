@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { apiEndpoint } from '../api';
 
-
 const Signup = () => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -52,14 +51,14 @@ const Signup = () => {
 
   return (
     <div className="flex min-h-screen w-full bg-gradient-to-br from-blue-50 via-gray-100 to-blue-100">
-      <div className="flex flex-row w-full min-h-screen">
+      <div className="flex flex-col md:flex-row w-full min-h-screen">
         {/* Left Side - Form */}
-        <div className="w-1/2 flex items-center justify-center p-8">
-          <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 transform transition-all duration-300 hover:shadow-xl">
-            <h2 className="text-4xl font-extrabold text-gray-900 mb-2 text-center">
+        <div className="w-full md:w-1/2 flex items-center justify-center p-4 md:p-8">
+          <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6 md:p-8 transform transition-all duration-300 hover:shadow-xl">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2 text-center">
               Create an Account
             </h2>
-            <p className="text-center text-gray-500 mb-8">
+            <p className="text-center text-gray-500 mb-6 md:mb-8">
               Join us today
             </p>
 
@@ -210,8 +209,8 @@ const Signup = () => {
           </div>
         </div>
 
-        {/* Right Side - Image (Option 1) */}
-        <div className="w-1/2 flex items-center justify-center bg-gray-200">
+        {/* Right Side - Image (Hidden on mobile) */}
+        <div className="hidden md:flex md:w-1/2 items-center justify-center bg-gray-200">
           <div className="relative w-3/4 h-3/4 rounded-lg overflow-hidden shadow-md">
             <img
               src="https://images.pexels.com/photos/164501/pexels-photo-164501.jpeg?auto=compress&cs=tinysrgb&w=400"
@@ -219,7 +218,6 @@ const Signup = () => {
               className="w-full h-full object-cover transform transition-transform duration-500 hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-center justify-center">
-              
             </div>
           </div>
         </div>
