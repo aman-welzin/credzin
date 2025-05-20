@@ -62,20 +62,7 @@ A modular and extensible system for recommending credit cards based on user pref
 - Matches cards to specific categories
 - Provides personalized recommendations based on user's existing cards
 
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
+.
 
 ## Architecture
 

@@ -31,6 +31,7 @@ function Login() {
       const token = response.data.token;
       localStorage.setItem('token', token);
       console.log("Token received:", token);
+      console.log('API Response:', response.data);
      if (!response.data.user.CardAdded || response.data.user.CardAdded.length === 0) {
       navigate('/manage-cards');
     } else {
