@@ -1,3 +1,4 @@
+from src.Recommender.LangGraphNodes.build_graph import create_legal_graph
 from src.utils.utils import logger
 from src.scrapers.banks import AxisBankScraper, ICICIBankScraper, SBIBankScraper
 from src.scrapers.sites import CardInsiderScraper
@@ -65,10 +66,54 @@ def run_site_scrapers(site_names):
 
 
 if __name__ == "__main__":
-    # List of banks to scrape
-    banks_to_scrape = ['axis', 'sbi', 'icici']
-    run_bank_scrapers(banks_to_scrape)
+    try:
+        logger.info("✅ Starting the credit card recommendation system...")
+        # List of banks to scrape
+        banks_to_scrape = ['axis', 'sbi', 'icici']
+        run_bank_scrapers(banks_to_scrape)
 
-    # List of sites to scrape
-    sites_to_scrape = ['cardinsider']
-    run_site_scrapers(sites_to_scrape)
+        # List of sites to scrape
+        sites_to_scrape = ['cardinsider']
+        run_site_scrapers(sites_to_scrape)
+
+        graph = create_legal_graph()
+        logger.info("Graph created successfully.")
+
+        # Show the graph structure
+        graph.show_graph()
+        graph.show_graph_as_picture()
+
+        # Read all files under resources/case_files
+        case_files_dir = "resources/Annexures"
+        if not os.path.exists(case_files_dir):
+            logger.error(f"Case files directory does not exist: {case_files_dir}")
+            raise FileNotFoundError(f"Directory not found: {case_files_dir}")
+
+        case_files = [os.path.join(case_files_dir, f) for f in os.listdir(case_files_dir) if os.path.isfile(os.path.join(case_files_dir, f))]
+
+        if not case_files:
+            logger.warning("No case files found in the directory.")
+
+        for case_file in case_files:
+            try:
+                input_data = {"case_path": case_file}
+                logger.info(f"Processing case file: {case_file}")
+
+                result = graph.invoke(input=input_data)
+
+                if result is None:
+                    logger.error("Graph execution returned None. Please check the workflow and nodes.")
+                    continue
+
+                logger.info(f"Graph execution result: {result}")
+
+                write_output(result)
+                
+                logger.info("Process completed successfully for the case file.")
+
+            except Exception as e:
+                logger.error(f"Error processing case file {case_file}: {e}")
+
+    except Exception as e:
+        logger.critical(f"Critical error in the main process: {e}")
+    

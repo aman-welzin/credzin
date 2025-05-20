@@ -1,14 +1,32 @@
-# credzin
-An app to optimize credit card spends
-Credit Card Recommendation System
-A modular and extensible system for recommending credit cards based on user preferences and existing cards.
-
-
-# MVP Features
-
-
 # ToDo's
-## Web App
+## Credzin WebApp
+- move the WebApp (front&back end) to vercel hub account
+- prepare mongoDB data loader script
+- Decide the full schema of the app
+- Rename the webapp to camel-case (WebApp)
+
+## User Flow
+- login > salary details > add cards > show recommendations
+
+## Home Page
+- Make it responsive 
+- Cards box: Show card joining fee on flip
+- Show all the card details on a click
+
+## Profile page
+- profile page for a new user
+- What's your monthly salary
+- How much are your estimated monthly spends
+- Skip button
+- show all the user details in profile page
+- Add home button on profile page and manage cards
+
+## Manage cards page
+- change text to 'Cards in you wallet'
+- change button text to 'Add to my card wallet'
+- Rename the page and routes to wallet
+
+## Credzin PyCode
 create a new log file with date_time for every run and write logs to /output/logs dir
 separate log file for each process/module: scraper, data loader, rag & llm  
 use relative path everywhere and make sure it runs in all the systems by auto-detection
@@ -22,10 +40,28 @@ build metadata for all the banks
 Scheduler for weekly, monthly data pull
 Pull offers data and card eligibilty data 
 
-## Recommendor/RAG/Agent AI
+## Recommendor
+Agentify the recommendor
 Complete the RAG pipeline for card recommendation
 build a chatbot on the KB for user-card random queries
 Post generator using KB
+
+
+
+
+# credzin
+An app to optimize credit card spends
+Credit Card Recommendation System
+A modular and extensible system for recommending credit cards based on user preferences and existing cards.
+
+# MVP Features
+- Extracts credit card names from natural language queries
+- Fetches detailed card information from Neo4j database
+- Generates human-readable summaries of card features and benefits
+- Analyzes card categories and identifies missing categories
+- Matches cards to specific categories
+- Provides personalized recommendations based on user's existing cards
+
 
 
 
@@ -40,15 +76,6 @@ Post generator using KB
 
 
 
-
-## Features
-
-- Extracts credit card names from natural language queries
-- Fetches detailed card information from Neo4j database
-- Generates human-readable summaries of card features and benefits
-- Analyzes card categories and identifies missing categories
-- Matches cards to specific categories
-- Provides personalized recommendations based on user's existing cards
 
 ## Architecture
 
