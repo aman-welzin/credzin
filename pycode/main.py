@@ -1,7 +1,9 @@
-from src.Recommender.LangGraphNodes.build_graph import create_legal_graph
-from src.utils.utils import logger
-from src.scrapers.banks import AxisBankScraper, ICICIBankScraper, SBIBankScraper
-from src.scrapers.sites import CardInsiderScraper
+from src.Recommender.LangGraphNodes.build_graph import card_graph
+from src.Utils.utils import logger
+from src.Scrapers.banks import AxisBankScraper, ICICIBankScraper, SBIBankScraper
+from src.Scrapers.sites import CardInsiderScraper
+
+import os
 
 def run_bank_scrapers(bank_names):
     """
@@ -68,6 +70,8 @@ def run_site_scrapers(site_names):
 if __name__ == "__main__":
     try:
         logger.info("✅ Starting the credit card recommendation system...")
+        
+        '''
         # List of banks to scrape
         banks_to_scrape = ['axis', 'sbi', 'icici']
         run_bank_scrapers(banks_to_scrape)
@@ -75,29 +79,32 @@ if __name__ == "__main__":
         # List of sites to scrape
         sites_to_scrape = ['cardinsider']
         run_site_scrapers(sites_to_scrape)
+        '''
 
-        graph = create_legal_graph()
+        graph = card_graph()
         logger.info("Graph created successfully.")
 
-        # Show the graph structure
+        # Show the graph structure 
         graph.show_graph()
         graph.show_graph_as_picture()
 
         # Read all files under resources/case_files
-        case_files_dir = "resources/Annexures"
+        case_files_dir = '/Users/aman/Welzin/Dev/credzin/KnowledgeBase/banks/AxisBank/csv/'
         if not os.path.exists(case_files_dir):
-            logger.error(f"Case files directory does not exist: {case_files_dir}")
+            logger.error(f"Data files directory does not exist: {case_files_dir}")
             raise FileNotFoundError(f"Directory not found: {case_files_dir}")
 
         case_files = [os.path.join(case_files_dir, f) for f in os.listdir(case_files_dir) if os.path.isfile(os.path.join(case_files_dir, f))]
+        logger.info('case_files:', case_files)
 
         if not case_files:
-            logger.warning("No case files found in the directory.")
+            logger.warning("No data files found in the directory.")
 
         for case_file in case_files:
+            logger.info('case_file: ', case_file)
             try:
-                input_data = {"case_path": case_file}
-                logger.info(f"Processing case file: {case_file}")
+                input_data = {"data_path": case_file}
+                logger.info(f"Processing data files: {case_file}")
 
                 result = graph.invoke(input=input_data)
 
@@ -107,9 +114,9 @@ if __name__ == "__main__":
 
                 logger.info(f"Graph execution result: {result}")
 
-                write_output(result)
+                #write_output(result)
                 
-                logger.info("Process completed successfully for the case file.")
+                logger.info("Process completed successfully for the data files.")
 
             except Exception as e:
                 logger.error(f"Error processing case file {case_file}: {e}")

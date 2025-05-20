@@ -2,7 +2,7 @@
 Ingest Agent: Reads a case file, extracts its content, and prepares it for further processing.
 """
 import os
-from src.utils.config import *
+from src.Utils.utils import *
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from docx import Document
@@ -27,8 +27,8 @@ def ingest_agent(input: dict) -> dict:
     Returns:
         dict: A dictionary containing the extracted case data and its chunks.
     """
-    logger.info("Ingesting case file.")
-    case_path = input["case_path"]
+    logger.info("Ingesting data file.")
+    case_path = input["data_path"]
     file_extension = os.path.splitext(case_path)[1].lower()
 
     # Initialize case_data
@@ -61,23 +61,24 @@ def ingest_agent(input: dict) -> dict:
             except Exception as e:
                 logger.error(f"Error reading text file: {e}")
                 return {"error": str(e)}
+            
+        elif file_extension == ".csv":
+            try:
+                logger.info("Detected csv file. Reading content.")
+                with open(case_path, "r", encoding="utf-8") as file:
+                    case_data = file.read()
+            except Exception as e:
+                logger.error(f"Error reading text file: {e}")
+                return {"error": str(e)}
 
         else:
             logger.error("Unsupported file type.")
             return {"error": "Unsupported file type."}
 
         # Split the case data into chunks for further processing
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=300)
         chunks = text_splitter.split_text(case_data)
         logger.info(f"Split case data into {len(chunks)} chunks.")
-
-        # Save the extracted data as Markdown in resources/converted/
-        converted_dir = "resources/Translated"
-        os.makedirs(converted_dir, exist_ok=True)
-        output_file = os.path.join(converted_dir, os.path.basename(case_path).replace(file_extension, ".md"))
-        with open(output_file, "w", encoding="utf-8") as md_file:
-            md_file.write(f"# Extracted Case Data\n\n{case_data}")
-        logger.info(f"Converted file saved as Markdown at {output_file}.")
 
         # Limit chunks to the top 2 and log their lengths
         top_chunks = chunks[:2]

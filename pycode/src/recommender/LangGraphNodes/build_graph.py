@@ -1,12 +1,6 @@
-from src.utils.config import *
-from src.output.write_output import write_output
-
-from src.agents.ingest_agent import ingest_agent
-from src.agents.rag_agent import rag_agent
-from src.agents.grader_agent import grader_agent
-from src.agents.evaluator_agent import evaluator_agent
-from src.agents.summarizer_agent import summarizer_agent
-from src.agents.precedence_agent import precedence_agent
+from src.Utils.utils import *
+from src.Recommender.agents.ingest_agent import ingest_agent
+from src.Recommender.agents.rag_agent import rag_agent
 
 import json
 
@@ -76,29 +70,6 @@ class Graph:
                 #logger.info(f"Output of rag_agent:\n {result}")
                 result = {"retrieved_data": result.get("retrieved_data", None)}
 
-            if current_node == "summarizer_agent":
-                #logger.info(f"Output of summarize_case: {result}")
-                result = {"summary": result.get("summary", None)}
-
-                # Trigger precedence_agent in parallel
-                #logger.info("Triggering precedence_agent with only the summary as input.")
-                precedence_result = self.nodes["precedence_agent"]({"summary": result["summary"]})
-                #logger.info(f"Output of precedence_agent: {precedence_result}")
-
-                # Combine results if needed
-                result["precedence_result"] = precedence_result
-
-            if current_node == "grader_agent":
-                #logger.info(f"Output of grader_agent: {result}")
-                result = {"grade": result.get("grade", None)}
-
-            if current_node == "evaluator_agent":
-                #logger.info(f"Output of evaluator_agent: {result}")
-                result = {
-                    "summary": result.get("summary", None),
-                    "evaluation_result": result.get("evaluation", None),
-                }
-
             # Pretty print the output of each step
             #logger.info(format_step(step_counter + 1, f"Node '{current_node}' executed. Result: {json.dumps(result, indent=4)}"))
             logger.info(format_step(step_counter + 1, f"Node '{current_node}' executed."))
@@ -127,7 +98,7 @@ class Graph:
         for from_node, to_node in self.edges.items():
             logger.info(f"  - {from_node} -> {to_node}")
 
-    def show_graph_as_picture(self, output_path="outputs/graph.png"):
+    def show_graph_as_picture(self, output_path="/Users/aman/Welzin/Dev/credzin/Output/logs_20_05_2025/graph.png"):
         """
         Generates a visual representation of the graph and saves it as a picture.
 
@@ -155,7 +126,7 @@ class Graph:
         plt.close()
         logger.info(f"Graph saved as a picture at {output_path}.")
 
-def create_legal_graph():
+def card_graph():
     """
     Builds and returns the legal graph workflow.
     """
@@ -165,19 +136,11 @@ def create_legal_graph():
     # Add nodes to the graph
     graph.add_node("ingest_agent", ingest_agent)
     graph.add_node("rag_agent", rag_agent)
-    graph.add_node("summarizer_agent", summarizer_agent)
-    graph.add_node("grader_agent", grader_agent)
-    graph.add_node("evaluator_agent", evaluator_agent)
-    graph.add_node("precedence_agent", precedence_agent)
-    graph.add_node("write_output", write_output)
+    #graph.add_node("write_output", write_output)
 
     # Define the workflow by connecting nodes in the desired order
     graph.add_edge("ingest_agent", "rag_agent")
-    graph.add_edge("rag_agent", "summarizer_agent")
-    graph.add_edge("summarizer_agent", "grader_agent")
-    graph.add_edge("grader_agent", "evaluator_agent")
-    graph.add_edge("evaluator_agent", "precedence_agent")
-    graph.add_edge("precedence_agent", "write_output")
+    #graph.add_edge("precedence_agent", "write_output")
 
-    logger.info("Legal graph workflow created successfully.")
+    logger.info("Credit graph workflow created successfully.")
     return graph

@@ -1,4 +1,4 @@
-from src.utils.utils import logger
+from src.Utils.utils import logger
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin

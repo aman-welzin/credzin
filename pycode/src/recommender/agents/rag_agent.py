@@ -1,7 +1,7 @@
 """
 RAG Agent: Ingests case files and performs document-based retrieval using embeddings.
 """
-from src.utils.config import *
+from src.Utils.utils import *
 
 def rag_agent(input):
     """
@@ -16,17 +16,15 @@ def rag_agent(input):
     try:
         case_data = input["case_data"]
         prompt = (
-                    "You are a legal analyst reviewing a case document. Extract **all** relevant information in a structured manner. "
-                    "Do **not** skip or summarize — ensure every detail is captured.\n\n"
+                    "You are an expert credit card analyst."
+                    "Suggest the best credit cards in each cattegory based on the follwing credit card data"
                     "Document:\n"
                     f"{case_data}\n\n"
                     "Instructions:\n"
-                    "- Extract: charges, IPC sections, dates, times, locations, names (accused, victim, officers), FIR details, witness statements, and investigation findings.\n"
-                    "- Identify: case background, sequence of events, evidence collected, legal proceedings, and current case status.\n"
-                    "- Note: even minor details like item descriptions, vehicle numbers, or procedural actions.\n"
-                    "- Format clearly with headings or bullet points.\n\n"
+                    "- Suggest 1 best card for every category\n"
                     "Begin your extraction below:"
                 )
+        #logger.info(f"Prompt for LLM:\n {prompt}")
 
         # Invoke the model
         response = LLM.invoke(prompt)

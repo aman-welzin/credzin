@@ -31,6 +31,22 @@ class CustomFormatter(logging.Formatter):
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)
 
+def format_step(step_number, message):
+    """
+    Formats a step message with a step number and highlights it in green.
+
+    Args:
+        step_number (int): The step number.
+        message (str): The message to format.
+
+    Returns:
+        str: The formatted step message.
+    """
+    GREEN = "\033[92m"  # ANSI escape code for green
+    RESET = "\033[0m"   # Reset color
+    return f"{GREEN}\n\n[Step {step_number}]{RESET} {message}"
+
+
 def configure_logging():
     """
     Configures the logging settings for the application.
@@ -72,7 +88,7 @@ def get_llm(logger):
     logger.info("Initializing LLM instance - Llama3.2 model.")
     return ChatOllama(model="llama3.2", base_url="http://localhost:11434")
 
-def print_llm_response(logger, response):
+def print_llm_response(response):
     """
     Pretty prints an LLM response, handling different possible types.
 
