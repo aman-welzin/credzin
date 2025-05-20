@@ -107,9 +107,9 @@ const ManageCards = () => {
 
       {/* CART SECTION */}
       <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg p-2 max-h-[400px] mb-6 overflow-y-auto">
-        <h2 className="text-2xl font-bold text-center text-gray-900 mb-1">Cards in your account</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-900 mb-1">Cards in you wallet</h2>
         {cart.length === 0 ? (
-          <p className="text-center text-gray-600 text-lg">No items in the cart</p>
+          <p className="text-center text-gray-600 text-lg">No items in the wallet</p>
         ) : (
           <div className="overflow-y-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6 max-h-[340px]">
             {cart.map((card) => (
@@ -187,7 +187,7 @@ const ManageCards = () => {
             onClick={handleAddToCart}
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
-            Add to Cart
+            Add to my card wallet
           </button>
         </div>
       </div>
