@@ -62,20 +62,7 @@ A modular and extensible system for recommending credit cards based on user pref
 - Matches cards to specific categories
 - Provides personalized recommendations based on user's existing cards
 
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
+.
 
 ## Architecture
 
@@ -174,6 +161,17 @@ pytest tests/test_recommender.py::test_card_extractor
 
 
 # Steps to run the web app
+Install nodejs in our system
+    -BACKEND
+        move to WebAPP folder
+        then in terminal  cd backend
+        run command npm i
+        run npm run dev
+    -FRONTEND
+        Move to WebApp folder
+        then in terminal run- cd frontend
+        run command npm i
+        run command npm run start
 
 
 
