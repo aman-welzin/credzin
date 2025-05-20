@@ -2,7 +2,6 @@ from textwrap import dedent
 
 from agno.agent import Agent
 from agno.models.ollama import Ollama
-from agno.models.openai import OpenAIChat
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.newspaper4k import Newspaper4kTools
 
@@ -99,33 +98,6 @@ research_agent = Agent(
 # Example usage with detailed research request
 if __name__ == "__main__":
     research_agent.print_response(
-        "Analyze the current state and future implications of artificial intelligence in Indian legal systems.",
+        "Write a detailed article in India Pakistan war 2025 and its impact on the world.",
         stream=True,
     )
-
-# Advanced research topics to explore:
-"""
-Technology & Innovation:
-1. "Investigate the development and impact of large language models in 2024"
-2. "Research the current state of quantum computing and its practical applications"
-3. "Analyze the evolution and future of edge computing technologies"
-4. "Explore the latest advances in brain-computer interface technology"
-
-Environmental & Sustainability:
-1. "Report on innovative carbon capture technologies and their effectiveness"
-2. "Investigate the global progress in renewable energy adoption"
-3. "Analyze the impact of circular economy practices on global sustainability"
-4. "Research the development of sustainable aviation technologies"
-
-Healthcare & Biotechnology:
-1. "Explore the latest developments in CRISPR gene editing technology"
-2. "Analyze the impact of AI on drug discovery and development"
-3. "Investigate the evolution of personalized medicine approaches"
-4. "Research the current state of longevity science and anti-aging research"
-
-Societal Impact:
-1. "Examine the effects of social media on democratic processes"
-2. "Analyze the impact of remote work on urban development"
-3. "Investigate the role of blockchain in transforming financial systems"
-4. "Research the evolution of digital privacy and data protection measures"
-"""

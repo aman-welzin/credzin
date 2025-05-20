@@ -3,7 +3,6 @@ from textwrap import dedent
 
 from agno.agent import Agent
 from agno.models.ollama import Ollama
-from agno.models.openai import OpenAIChat
 from agno.team.team import Team
 from agno.tools.arxiv import ArxivTools
 from agno.tools.duckduckgo import DuckDuckGoTools
@@ -25,7 +24,7 @@ reddit_researcher = Agent(
 
 hackernews_researcher = Agent(
     name="HackerNews Researcher",
-    model=OpenAIChat("gpt-4o"),
+    model=Ollama(id="llama3.2"),
     role="Research a topic on HackerNews.",
     tools=[HackerNewsTools()],
     add_name_to_instructions=True,
@@ -38,7 +37,7 @@ hackernews_researcher = Agent(
 
 academic_paper_researcher = Agent(
     name="Academic Paper Researcher",
-    model=OpenAIChat("gpt-4o"),
+    model=Ollama(id="llama3.2"),
     role="Research academic papers and scholarly content",
     tools=[GoogleSearchTools(), ArxivTools()],
     add_name_to_instructions=True,
@@ -53,7 +52,7 @@ academic_paper_researcher = Agent(
 
 twitter_researcher = Agent(
     name="Twitter Researcher",
-    model=OpenAIChat("gpt-4o"),
+    model=Ollama(id="llama3.2"),
     role="Research trending discussions and real-time updates",
     tools=[DuckDuckGoTools()],
     add_name_to_instructions=True,
@@ -70,7 +69,7 @@ twitter_researcher = Agent(
 agent_team = Team(
     name="Discussion Team",
     mode="collaborate",
-    model=OpenAIChat("gpt-4o"),
+    model=Ollama(id="llama3.2"),
     members=[
         reddit_researcher,
         hackernews_researcher,
@@ -82,8 +81,8 @@ agent_team = Team(
         "You have to stop the discussion when you think the team has reached a consensus.",
     ],
     success_criteria="The team has reached a consensus.",
-    send_team_context_to_members=True,
-    update_team_context=True,
+    #send_team_context_to_members=True,
+    #update_team_context=True,
     show_tool_calls=True,
     markdown=True,
     debug_mode=True,
@@ -93,7 +92,7 @@ agent_team = Team(
 if __name__ == "__main__":
     asyncio.run(
         agent_team.print_response(
-            message="Start the discussion on the topic: 'Can Indian legal system be disrupted with AI?'",
+            message="Start the discussion on the topic: 'Best travel credit cards in India'",
             stream=True,
             stream_intermediate_steps=True,
         )

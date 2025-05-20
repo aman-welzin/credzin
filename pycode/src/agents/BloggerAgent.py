@@ -13,6 +13,7 @@ from agno.tools.newspaper4k import Newspaper4kTools
 searcher = Agent(
     name="Searcher",
     role="Searches the top URLs for a topic",
+    model=Ollama(id="llama3.2"),
     instructions=[
         "Given a topic, first generate a list of 3 search terms related to that topic.",
         "For each search term, search the web and analyze the results.Return the 10 most relevant URLs to the topic.",
@@ -24,6 +25,7 @@ searcher = Agent(
 writer = Agent(
     name="Writer",
     role="Writes a high-quality article",
+    model=Ollama(id="llama3.2"),
     description=(
         "You are a senior finance writer for the Credzin fintech firm. Given a topic and a list of URLs, "
         "your goal is to write a high-quality professional article on the topic."
@@ -63,4 +65,4 @@ editor = Team(
     debug_mode=True,
     show_members_responses=True,
 )
-editor.print_response("Write an article about the best Travel credit cards in India.", stream=True)
+editor.print_response("Write an article with full explaination and details about the best Travel credit cards in India.", stream=True)
