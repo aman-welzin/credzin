@@ -69,3 +69,9 @@ anthropic
 
 # Agno/PhiData API
 agno
+'fastapi[standard]'
+playground
+
+# Huggingface
+huggingface_hub[hf_xet]
+
