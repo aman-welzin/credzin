@@ -277,3 +277,85 @@ exports.removeCardFromCart = async (req, res) => {
       .json({ success: false, message: `Internal server error:${error}` });
   }
 };
+
+// controllers/userController.js
+
+
+
+exports.updateAdditionalDetails = async (req, res) => {
+  try {
+   
+    const userId = req.id; 
+    if(!userId){
+      console.log("user id is not persent")
+    }
+     
+    const { ageRange, salaryRange, expenseRange } = req.body;
+
+    // Basic validation (optional: use a schema validation lib like Joi/Zod)
+    const validAgeRanges = ["18-24", "25-34", "35-44", "45-54", "55+"];
+    const validSalaryRanges = ["0-10000", "10000-25000", "25000-50000", "50000-100000", "100000+"];
+    const validExpenseRanges = ["0-5000", "5000-15000", "15000-30000", "30000+"];
+    
+    if (
+      !validAgeRanges.includes(ageRange) ||
+      !validSalaryRanges.includes(salaryRange) ||
+      !validExpenseRanges.includes(expenseRange)
+    ) {
+      return res.status(400).json({ message: 'Invalid range values provided' });
+    }
+    console.log("you are here")
+    // Update the user
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { ageRange, salaryRange, expenseRange },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      message: 'User details updated successfully',
+      user: updatedUser,
+    });
+
+  } catch (err) {
+    console.error('Error updating user additional details:', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+
+exports.getFullUserDetails  = async (req, res) => {
+  try {
+   const userId = req.id; // Ensure your verifyToken middleware attaches user info to req.user
+
+    const user = await User.findById(userId)
+      .select("-password -token -__v") // exclude sensitive fields
+      .populate({
+        path: "CardAdded",
+        model: "credit_cards"
+      });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    console.log(user)
+
+    return res.status(200).json({
+      success: true,
+      message: "User details fetched successfully",
+      data: user,
+    });
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+
