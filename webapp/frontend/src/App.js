@@ -110,7 +110,8 @@ const getUserFullDetails = async () => {
     });
 
     if (response.status === 200) {
-      const userData = response.data;
+      console.log('User full details:', response.data.data);
+      const userData = response.data.data;
 
       const { CardAdded, ...userInfo } = userData;
 
@@ -132,8 +133,8 @@ const getUserFullDetails = async () => {
   // Step 4: Run once on mount
   useEffect(() => {
     getUserFullDetails();
-    getUser();
-    getCardDetails();
+    // getUser();
+    // getCardDetails();
     get_all_bank();
   }, []);
 

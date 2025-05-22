@@ -271,6 +271,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     if (user) {
+        console.log("This is the reduz user: ",user);
       setEditUser(user);
     }
   }, [user]);
