@@ -1,17 +1,15 @@
 # ToDo's
 ## Credzin WebApp
 - move the WebApp (front&back end) to vercel hub account
+    -- Domain change is pending
 - prepare mongoDB data loader script
 - Decide the full schema of the app
-- Rename the webapp to camel-case (WebApp)
 
 ## User Flow
 - login > salary details > add cards > show recommendations
 
 ## Home Page
-- Make it responsive 
-- Cards box: Show card joining fee on flip
-- Show all the card details on a click
+- Make it responsive and mobile friendly
 
 ## Profile page
 - profile page for a new user
@@ -22,9 +20,9 @@
 - Add home button on profile page and manage cards
 
 ## Manage cards page
-- change text to 'Cards in you wallet'
-- change button text to 'Add to my card wallet'
 - Rename the page and routes to wallet
+- Add user messages as toast on button clicks
+
 
 ## Credzin PyCode
 create a new log file with date_time for every run and write logs to /output/logs dir
@@ -184,6 +182,5 @@ Install nodejs in our system
 5. Create a Pull Request
 
 ## License
-
 MIT License 
 
