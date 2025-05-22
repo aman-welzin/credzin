@@ -12,6 +12,7 @@ langgraph
 neo4j
 neo4j-graphrag
 chromadb
+qdrant-client
 
 # Document Processing
 pymupdf
@@ -69,3 +70,8 @@ anthropic
 
 # Agno/PhiData API
 agno
+fastapi
+playground
+
+# Huggingface
+huggingface_hub[hf_xet]
