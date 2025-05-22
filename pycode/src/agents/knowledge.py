@@ -36,4 +36,4 @@ agent = Agent(knowledge=knowledge_base,
               show_tool_calls=True)
 
 agent.knowledge.load(recreate=False)
-agent.print_response("List all the features of 'axis bank Indian oil' credit card", markdown=True)
+agent.print_response("List all the features of 'axis bank Indian oil' credit card", markdown=True)git 
