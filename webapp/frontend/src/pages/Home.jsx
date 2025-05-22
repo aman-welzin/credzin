@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Dropdown from "../component/Drpdown";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../app/slices/cartSlice";

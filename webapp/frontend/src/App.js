@@ -14,6 +14,8 @@ import Navbar from './component/Navbar';
 import Footer from './component/Footer';
 import ManageCards from './pages/ManageCards'; // Import the new page
 import { setBankList } from './app/slices/bankSlice';
+import AdditionalDetails from './pages/AdditionalDetails';
+import  Profile  from './pages/Profile';
 
 function App() {
   const dispatch = useDispatch();
@@ -90,8 +92,46 @@ function App() {
 
   }
 
+ 
+
+const getUserFullDetails = async () => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    console.warn('No token found');
+    return;
+  }
+
+  try {
+    const response = await axios.get(`${apiEndpoint}/api/v1/auth/userdetail`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      const userData = response.data;
+
+      const { CardAdded, ...userInfo } = userData;
+
+      // Store user info (excluding CardAdded)
+      dispatch(setUser(userInfo));
+
+      // Store CardAdded in the cart slice
+      if (Array.isArray(CardAdded)) {
+        dispatch(setCart(CardAdded));
+      }
+
+      console.log('User and cards set in Redux.');
+    }
+  } catch (error) {
+    console.error('Error fetching user data:', error.response?.data || error.message);
+  }
+};
+
   // Step 4: Run once on mount
   useEffect(() => {
+    getUserFullDetails();
     getUser();
     getCardDetails();
     get_all_bank();
@@ -110,9 +150,11 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/manage-cards" element={<ManageCards />} /> {/* New Route */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/manage-cards" element={<ManageCards />} /> {/* New Route */}
+        <Route path="/additional-details" element={<AdditionalDetails/>}/>
+        <Route path="/profile" element={<Profile/>}/>
       </Routes>
       <Footer />
     </div>

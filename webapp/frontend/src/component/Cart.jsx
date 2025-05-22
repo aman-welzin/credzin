@@ -26,7 +26,7 @@ const Cart = () => {
         {/* Header */}
         <div className="mb-0">
           <h2 className="text-3xl font-extrabold text-gray-900 text-center">
-            Cards in your account
+            Cards in your Wallet
           </h2>
         </div>
 
@@ -35,7 +35,7 @@ const Cart = () => {
             No items in the cart
           </p>
         ) : (
-          <div className="h-[70vh] overflow-y-auto">
+          <div className="h-[50vh] overflow-y-auto">
             {/* Updated Background for Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 from-blue-50 via-gray-100 p-4 rounded-lg">
               {cart.map((card) => (

@@ -14,16 +14,16 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true, // Add to prevent duplicates
+    unique: true,
     trim: true,
   },
   password: {
     type: String,
-    required: false, // Not required for Google OAuth users
+    required: false,
   },
   contact: {
     type: String,
-    required: false, // Optional for Google OAuth users
+    required: false,
   },
   token: {
     type: String,
@@ -35,7 +35,19 @@ const userSchema = new mongoose.Schema({
     },
   ],
   googleId: {
-    type: String, // For Google login
+    type: String,
+  },
+  ageRange: {
+    type: String,
+    enum: ["18-24", "25-34", "35-44", "45-54", "55+"],
+  },
+  salaryRange: {
+    type: String,
+    enum: ["0-10000", "10000-25000", "25000-50000", "50000-100000", "100000+"],
+  },
+  expenseRange: {
+    type: String,
+    enum: ["0-5000", "5000-15000", "15000-30000", "30000+"],
   },
 });
 
