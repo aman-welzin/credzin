@@ -8,7 +8,7 @@ from agno.embedder.huggingface import HuggingfaceCustomEmbedder
 
 
 # Initialize the local embedder
-#hf_token=''
+#hf_token='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'
 #embedder = HuggingfaceCustomEmbedder(id="sentence-transformers/all-MiniLM-L6-v2",
 #                                     api_key=hf_token)
 embedder = SentenceTransformerEmbedder(id="all-MiniLM-L6-v2")
