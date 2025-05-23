@@ -284,19 +284,18 @@ exports.removeCardFromCart = async (req, res) => {
 
 exports.updateAdditionalDetails = async (req, res) => {
   try {
-   
-    const userId = req.id; 
-    if(!userId){
-      console.log("user id is not persent")
+    const userId = req.id;
+    if (!userId) {
+      console.log("User ID is not present");
+      return res.status(400).json({ message: "User ID missing in request" });
     }
-     
-    const { ageRange, salaryRange, expenseRange } = req.body;
 
-    // Basic validation (optional: use a schema validation lib like Joi/Zod)
+    const { ageRange, salaryRange, expenseRange, profession, location } = req.body;
+    // Basic validation
     const validAgeRanges = ["18-24", "25-34", "35-44", "45-54", "55+"];
     const validSalaryRanges = ["0-10000", "10000-25000", "25000-50000", "50000-100000", "100000+"];
     const validExpenseRanges = ["0-5000", "5000-15000", "15000-30000", "30000+"];
-    
+
     if (
       !validAgeRanges.includes(ageRange) ||
       !validSalaryRanges.includes(salaryRange) ||
@@ -304,13 +303,25 @@ exports.updateAdditionalDetails = async (req, res) => {
     ) {
       return res.status(400).json({ message: 'Invalid range values provided' });
     }
-    console.log("you are here")
-    // Update the user
+
+    if (typeof profession !== 'string' || typeof location !== 'string') {
+      return res.status(400).json({ message: 'Invalid profession or location' });
+    }
+
+    // Update the user including setting isFirstLogin to false
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { ageRange, salaryRange, expenseRange },
+      {
+        ageRange,
+        salaryRange,
+        expenseRange,
+        profession,
+        location,
+        isfirstLogin: false  // Set isFirstLogin to false
+      },
       { new: true }
     );
+    console.log("this is the updated user",updatedUser)
 
     return res.status(200).json({
       message: 'User details updated successfully',
@@ -322,9 +333,7 @@ exports.updateAdditionalDetails = async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 };
-
-
-
+// Fetch full user details including populated CardAdded
 exports.getFullUserDetails  = async (req, res) => {
   try {
    const userId = req.id; // Ensure your verifyToken middleware attaches user info to req.user

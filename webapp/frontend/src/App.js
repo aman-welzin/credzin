@@ -133,8 +133,8 @@ const getUserFullDetails = async () => {
   // Step 4: Run once on mount
   useEffect(() => {
     getUserFullDetails();
-    // getUser();
-    // getCardDetails();
+    getUser();
+    getCardDetails();
     get_all_bank();
   }, []);
 

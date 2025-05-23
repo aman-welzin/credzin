@@ -27,16 +27,24 @@ function Login() {
         formData,
         { withCredentials: true }
       );
-      console.log("response from login is", response.data);
-      const token = response.data.token;
-      localStorage.setItem('token', token);
-      console.log("Token received:", token);
-      console.log('API Response:', response.data);
-     if (!response.data.user.CardAdded || response.data.user.CardAdded.length === 0) {
-      navigate('/manage-cards');
-    } else {
-      navigate('/home');
-    }
+      if (response.status !== 200) {
+        throw new Error('Login failed');
+      }
+      if (response.status === 200 ){
+        console.log("Login successful");
+        localStorage.setItem("token", response.data.token);
+        console.log("response from login is", response.data);;
+        if(response.data.user.isfirstLogin===true) {
+          navigate('/additional-details');
+        } else {
+          // Check if the user has added a card
+          if (response.data.user.CardAdded.length === 0) {
+            navigate('/manage-cards');
+          } else {
+            navigate('/home');
+          }
+        }
+      }    
      
     } catch (err) {
       console.error("Login error:", err.response?.data?.message || err.message);

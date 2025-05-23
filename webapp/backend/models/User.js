@@ -49,6 +49,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ["0-5000", "5000-15000", "15000-30000", "30000+"],
   },
+  profession: {
+    type: String,
+  },
+  location: {
+    type: String,
+  },
+  isfirstLogin: {
+    type: Boolean,
+    default: true,
+  },  
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);
