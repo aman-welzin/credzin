@@ -1,35 +1,43 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { apiEndpoint } from '../api';  
+import { useNavigate } from 'react-router-dom';
 const AdditionalDetails = () => {
   const [ageRange, setAgeRange] = useState('');
   const [salaryRange, setSalaryRange] = useState('');
   const [expenseRange, setExpenseRange] = useState('');
+  const [profession, setProfession] = useState('');       // New profession state
   const [location, setLocation] = useState('');
+  const navigate = useNavigate();
+  const handleSubmit = async () => {
+    const userData = { ageRange, salaryRange, expenseRange, profession, location };
+    console.log('Submitted:', userData);
+    try {
+      const token = localStorage.getItem("token"); 
 
- const handleSubmit = async () => {
-  const userData = { ageRange, salaryRange, expenseRange, location };
-  console.log('Submitted:', userData);
-
-  try {
-    const token = localStorage.getItem("token"); 
-
-    const response = await axios.post(
-       `${apiEndpoint}/api/v1/auth/additionalDetails`, 
-      userData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await axios.post(
+        `${apiEndpoint}/api/v1/auth/additionalDetails`, 
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status !== 200) {
+        throw new Error('Submission failed');  
       }
-    );
-
-    console.log("Server response:", response.data);
-  } catch (error) {
-    console.error("Submission failed:", error.response?.data || error.message);
-  }
-};
-
+      if (response.status === 200) {
+        console.log("Submission successful"); 
+        // localStorage.setItem("token", response.data.token); // Store the new token if provided
+        // Redirect to the next page or show a success message  
+        navigate('/manage-cards'); // Adjust the route as needed
+      }
+        console.log("Server response:", response.data);
+    } catch (error) {
+      console.error("Submission failed:", error.response?.data || error.message);
+    }
+  };
 
   const handleOnSkip = () => {
     console.log('User skipped the form');
@@ -106,6 +114,20 @@ const AdditionalDetails = () => {
             </select>
           </div>
 
+          {/* Profession (NEW) */}
+          <div className="mb-6">
+            <label className="block text-sm sm:text-base font-medium text-gray-800 mb-2">
+              Profession
+            </label>
+            <input
+              type="text"
+              value={profession}
+              onChange={(e) => setProfession(e.target.value)}
+              placeholder="Enter your profession"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-700 placeholder-gray-700"
+            />
+          </div>
+
           {/* Location */}
           <div className="mb-6">
             <label className="block text-sm sm:text-base font-medium text-gray-800 mb-2">
@@ -138,7 +160,6 @@ const AdditionalDetails = () => {
       </div>
 
       {/* Footer */}
-  
     </div>
   );
 };
