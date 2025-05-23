@@ -6,14 +6,14 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 
 exports.signup = async (req, res) => {
-  
+  // Validate request body
   const { firstName, lastName, email, password, contact } = req.body;
   try {
     const existing = await User.findOne({ email });
     if (existing) {
       return res.status(400).json({ message: 'User already exists' });
     }
-    console.log("hii we are inside the signup blockd")
+    // console.log("hii we are inside the signup blockd")
 
     const hashed = await bcrypt.hash(password, 10);
     const user = await User.create({
