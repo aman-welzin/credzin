@@ -121,14 +121,18 @@ for user in users:
                 • Location: {location}
                 **Existing cards:** {list_of_cards}
                 **Task**
-                1. Analyse the customer’s profile, spending potential and current card portfolio.
+                1. Analyse the customer's profile, spending potential and current card portfolio.
                 2. Identify gaps in rewards, benefits or categories not covered by the existing cards (e.g., travel, dining, fuel, subscriptions).
                 3. Recommend ONE suitable credit card issued in India that best complements the current set.
                 4. Justify your choice in ≤ 120 words, covering:
                 • Key benefits that fill the identified gaps
                 • Annual/joining fee and effective waiver options
                 • Why it outperforms alternatives for this customer
-                **Output format** (Markdown)
+                **Important rules**
+                1. Output **exactly one** card name—no lists, alternates, or "also consider" suggestions.
+                2. Do *not* mention or compare any card other than your single recommendation. 
+                3. Follow the output template verbatim.
+                **Output template** (Markdown)
                 **Best Card:** *<Card Name>*
                 **Why it suits {name}:** <justification>
                 **Suggest only 1 card and no extra text**
