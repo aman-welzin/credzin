@@ -321,7 +321,6 @@ exports.updateAdditionalDetails = async (req, res) => {
       },
       { new: true }
     );
-    console.log("this is the updated user",updatedUser)
 
     return res.status(200).json({
       message: 'User details updated successfully',
@@ -351,7 +350,6 @@ exports.getFullUserDetails  = async (req, res) => {
         message: "User not found",
       });
     }
-    console.log(user)
 
     return res.status(200).json({
       success: true,

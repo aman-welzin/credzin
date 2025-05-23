@@ -16,6 +16,7 @@ import ManageCards from './pages/ManageCards'; // Import the new page
 import { setBankList } from './app/slices/bankSlice';
 import AdditionalDetails from './pages/AdditionalDetails';
 import  Profile  from './pages/Profile';
+import { setRecommendedList } from './app/slices/recommendedSlice';
 
 function App() {
   const dispatch = useDispatch();
@@ -130,12 +131,38 @@ const getUserFullDetails = async () => {
   }
 };
 
+const getRecommendedCard = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.warn('No token found');
+    return;
+  }
+  try {
+    const response = await axios.get(`${apiEndpoint}/api/v1/card/recommendedcard`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log('Recommended cards:', response.data);
+
+    if (response.status === 200) {
+      console.log('Recommended cards:', response.data.cards);
+      const recommendedCards = response.data.cards;
+      dispatch(setRecommendedList(recommendedCards));
+
+      // dispatch(setCart(recommendedCards));
+    }
+  } catch (error) {
+    console.error('Error fetching recommended cards:', error.response?.data || error.message);
+  }
+}
   // Step 4: Run once on mount
   useEffect(() => {
     getUserFullDetails();
     getUser();
     getCardDetails();
     get_all_bank();
+    getRecommendedCard()
   }, []);
 
   return (
@@ -160,6 +187,6 @@ const getUserFullDetails = async () => {
       <Footer />
     </div>
   );
-}
+};
 
 export default App;
