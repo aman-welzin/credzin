@@ -65,7 +65,6 @@ twitter_researcher = Agent(
     """),
 )
 
-
 agent_team = Team(
     name="Discussion Team",
     mode="collaborate",

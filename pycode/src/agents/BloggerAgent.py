@@ -65,4 +65,4 @@ editor = Team(
     debug_mode=True,
     show_members_responses=True,
 )
-editor.print_response("Write an article with full explaination and details about the best Travel credit cards in India.", stream=True)
+editor.print_response("Write an article with full explaination and details about the Axis Bank Vistara Credit Card.", stream=True)

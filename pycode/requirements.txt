@@ -13,6 +13,7 @@ neo4j
 neo4j-graphrag
 chromadb
 qdrant-client
+pymongo
 
 # Document Processing
 pymupdf

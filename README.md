@@ -8,6 +8,9 @@
 ## User Flow
 - login > salary details > add cards > show recommendations
 
+## Login-Page
+Toast for an existing user if the emails is already found during signup
+
 ## Home Page
 - Make it responsive and mobile friendly
 
@@ -22,6 +25,8 @@
 ## Manage cards page
 - Rename the page and routes to wallet
 - Add user messages as toast on button clicks
+- Add card images in the card list
+
 
 
 ## Credzin PyCode
