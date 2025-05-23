@@ -5,7 +5,8 @@ import { addToCart } from "../app/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import Cart from "../component/Cart";
 import { apiEndpoint } from "../api";
-
+import { useSelector } from 'react-redux';
+import { setRecommendedList } from "../app/slices/recommendedSlice";
 const Home = ({ isManageCardsVisible, setIsManageCardsVisible }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -136,11 +137,16 @@ const Home = ({ isManageCardsVisible, setIsManageCardsVisible }) => {
         {/* Additional Boxes Section */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 mb-8 mx-4">
           {/* Recommended Cards Box */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 shadow-md">
-            <h3 className="text-lg font-semibold text-blue-800 mb-2">Recommended Cards</h3>
-            <p className="text-sm text-gray-600">
-              We recommend you best card according to your selected cards.
-            </p>
+          <div className="mx-4 mb-8">
+          <h3 className="text-xl font-semibold mb-2 text-indigo-700">Your Recommended Cards</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {useSelector(state => state.recommend.recommendedList).map((card) => (
+              <div key={card._id} className="bg-white border shadow p-4 rounded-lg">
+                <h4 className="font-semibold text-lg">{card.card_name}</h4>
+                  <p className="text-gray-600 text-sm mt-1">{card.suggestion}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Benefits Box */}
