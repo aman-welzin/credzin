@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const Cards = require('../models/card');
 require('dotenv').config();
 const mongoose = require('mongoose');
+const { PythonShell } = require('python-shell');
+
 
 exports.signup = async (req, res) => {
   // Validate request body
@@ -175,6 +177,19 @@ exports.addcards = async (req, res) => {
     // console.log(user.CardAdded)
 
     await user.save();
+
+  //   const options = {
+  //     mode: 'josn',
+  //     // pythonPath: 'path/to/python',
+  //     // pythonOptions: ['-u'], // get print results in real-time
+  //     scriptPath: 'pycode\\src\\agents',
+  //     args: ['value1', 'value2', 'value3']
+  //   };
+
+  //   PythonShell.run('knowledge.py', options).then(messages=>{
+  // // results is an array consisting of messages collected during execution
+  //     console.log('results: %j', messages);
+  //   });
 
     res
       .status(200)
